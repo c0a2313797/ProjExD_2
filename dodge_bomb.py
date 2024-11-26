@@ -59,6 +59,7 @@ def main():
                 sum_mv[0] += delta[0]
                 sum_mv[1] += delta[1]
         kk_rct.move_ip(sum_mv)
+        #こうかとんが外に出ないように
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         #爆弾の移動
