@@ -63,6 +63,29 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
         bb_imgs.append(bb_img)
     return bb_imgs, accs
 
+
+def get_kk_img(sum_mv: tuple[int, int]) -> pg.Surface:
+    if (sum_mv[0] >= 0):
+        pg.transform.flip(kk_img,angle,True,False)
+        angle ={
+            (0, -5): 90,
+            (-5, 0): 0,
+            (0, 5): 90,
+            (5,-5):45,
+            (5,0):0,
+            (5, 5): -45,
+        }
+        angle = angle[sum_mv]
+    else:
+        angle = {
+        (-5, -5): -45,
+        (-5, 0): 0,
+        (-5, 5): 45,
+        }
+        angle = angle[sum_mv]
+    kk_img = pg.image.load("fig/3.png")
+    return pg.transform.rotozoom(kk_img, angle, 0.9)
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -99,6 +122,8 @@ def main():
         # こうかとんが外に出ないように
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
+
+        kk_img = get_kk_img(tuple(sum_mv))
 
         # 爆弾の移動と拡大・加速
         idx = min(tmr // 500, 9)
