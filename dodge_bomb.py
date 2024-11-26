@@ -65,8 +65,18 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
 
 
 def get_kk_img(sum_mv: tuple[int, int]) -> pg.Surface:
-    if (sum_mv[0] >= 0):
-        pg.transform.flip(kk_img,angle,True,False)
+    """
+    指定された移動量に基づいて画像を変換する関数。
+    この関数は、指定された画像（"fig/3.png"）を読み込み、`sum_mv` で与えられる移動方向に応じて
+    回転や反転を行った画像を返します。
+    パラメータ:
+        sum_mv (tuple[int, int]): 移動量を表す2次元ベクトル (x, y)。この値に基づいて画像の角度が決まります。
+    戻り値:
+        pg.Surface: 変換後の画像オブジェクト。
+    """
+    kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
+    if (0 <= sum_mv[0]):
+        kk_img = pg.transform.flip(kk_img,True,False)
         angle ={
             (0, -5): 90,
             (-5, 0): 0,
@@ -83,9 +93,8 @@ def get_kk_img(sum_mv: tuple[int, int]) -> pg.Surface:
         (-5, 5): 45,
         }
         angle = angle[sum_mv]
-    kk_img = pg.image.load("fig/3.png")
-    return pg.transform.rotozoom(kk_img, angle, 0.9)
-
+    kk_img = pg.transform.rotozoom(kk_img, angle, 0.9)
+    return kk_img
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
